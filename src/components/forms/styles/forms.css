@@ -53,20 +53,16 @@
   width: fit-content;
 }
 
-.social-button.facebook {
-  background-color: #3b5998;
-}
-
-.social-button.vk {
-  background-color: #4c75a3;
-}
-
-.social-button.twitter {
-  background-color: #1da1f2;
-}
-
 .social-button.instagram {
   background: linear-gradient(45deg, #feda75, #d62976, #962fbf, #4f5bd5);
+  background-color: transparent;
+  border: none;
+  padding: 0px;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  max-height: 40px;
+  max-width: 40px;
 }
 
 .input-custom {
@@ -89,6 +85,10 @@
   .subscription-form-container, .sharing-form {
     margin: 20px;
   }
+}
+
+.social-button.instagram:disabled {
+  opacity: 0.5;
 }
 
 .button-custom .fa-icon {

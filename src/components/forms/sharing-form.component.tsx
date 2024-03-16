@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import './styles/forms.css';
-import { Button } from '../buttons/button.component';
 import {
   FacebookShareButton,
   VKShareButton,
@@ -11,6 +9,11 @@ import {
 } from 'react-share';
 import { Container, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram } from '@fortawesome/free-brands-svg-icons';
+
+import './styles/forms.css';
+import { Button } from '../buttons/button.component';
 
 const SharingForm: React.FC<{ isSubscribed: boolean; userId: string }> = ({ isSubscribed, userId }) => {
   const [isShared, setIsShared] = useState({
@@ -45,6 +48,10 @@ const SharingForm: React.FC<{ isSubscribed: boolean; userId: string }> = ({ isSu
     }
   };
 
+  const shareOnInstagram = () => {
+    window.open('instagram://user?username=instagram', '_blank');
+  };
+
   return (
     <Container className={`subscription-form-container ${!isSubscribed ? 'disabled' : ''}`}>
       <Form className="form">
@@ -74,6 +81,13 @@ const SharingForm: React.FC<{ isSubscribed: boolean; userId: string }> = ({ isSu
           >
             <TwitterIcon size={32} round />
           </TwitterShareButton>
+          {/* <button
+            className={`social-button instagram ${isShared.instagram ? 'disabled' : ''}`}
+            onClick={shareOnInstagram}
+            disabled={isShared.instagram}
+          >
+            <FontAwesomeIcon icon={faInstagram} size="2x" color="white" />
+          </button> */}
         </Form.Group>
         {showError && <span className='error'>Надо все же поделиться</span>}
         <Button
