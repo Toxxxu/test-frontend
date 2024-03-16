@@ -1,0 +1,23 @@
+.button {
+  padding: 10px 25px;
+  font-size: 1rem;
+  color: white;
+  background: linear-gradient(110deg, rgba(43,187,73,1) 0%, rgba(23,129,172,1) 100%);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.button:hover {
+  background: linear-gradient(110deg, rgba(15,182,214,1) 0%, rgba(3,118,205,1) 100%);
+}
+
+.button:active {
+  background: linear-gradient(110deg, rgba(67,83,154,1) 0%, rgba(25,89,202,1) 100%);
+}
+
+.button:disabled {
+  background: linear-gradient(110deg, rgba(31,114,65,1) 0%, rgba(14,82,118,1) 100%);
+}
