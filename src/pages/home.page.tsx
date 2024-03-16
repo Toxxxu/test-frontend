@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import { SubscriptionForm } from '../components/forms/subscription-form.component';
@@ -7,6 +7,14 @@ import logo from '../assets/images/logo.png';
 import './styles/home.page.css';
 
 const HomePage: React.FC = () => {
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [userId, setUserId] = useState<string>('');
+
+  const handleSubscriptionSuccess = (userId: string) => {
+    setIsSubscribed(true);
+    setUserId(userId);
+  };
+
   return (
     <div className="home-page">
       <Container>
@@ -19,10 +27,10 @@ const HomePage: React.FC = () => {
             </p>
             <Row className='forms-row'>
               <Col>
-                <SubscriptionForm />
+                <SubscriptionForm onSubscriptionSuccess={handleSubscriptionSuccess} />
               </Col>
               <Col>
-                <SharingForm />
+                <SharingForm isSubscribed={isSubscribed} userId={userId} />
               </Col>
             </Row>
           </Col>

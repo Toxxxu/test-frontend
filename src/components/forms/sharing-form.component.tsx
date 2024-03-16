@@ -10,22 +10,43 @@ import {
   VKIcon
 } from 'react-share';
 import { Container, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
-const SharingForm: React.FC = () => {
+const SharingForm: React.FC<{ isSubscribed: boolean; userId: string }> = ({ isSubscribed, userId }) => {
   const [isShared, setIsShared] = useState({
     facebook: false,
     vk: false,
     twitter: false,
     instagram: false,
   });
+  const [sharedConfirmationClicked, setSharedConfirmationClicked] = useState(false);
+  const [showError, setShowError] = useState(false);
+
+  const navigate = useNavigate();
+
   const shareUrl = 'https://example.com';
 
   const handleShareButtonClick = (network: keyof typeof isShared) => {
     setIsShared({ ...isShared, [network]: true });
+    setShowError(false);
+  };
+
+  const handleConfirmButtonClick = () => {
+    const hasSharedAny = Object.values(isShared).some(v => v);
+    setSharedConfirmationClicked(true);
+    
+    if (!hasSharedAny) {
+      setShowError(true);
+      setSharedConfirmationClicked(false);
+    } else {
+      if (!userId) return;
+      localStorage.setItem('userId', userId);
+      navigate('/success');
+    }
   };
 
   return (
-    <Container className="subscription-form-container">
+    <Container className={`subscription-form-container ${!isSubscribed ? 'disabled' : ''}`}>
       <Form className="form">
         <span className="form-label">Поделись с друзьями</span>
         <Form.Group>
@@ -54,11 +75,12 @@ const SharingForm: React.FC = () => {
             <TwitterIcon size={32} round />
           </TwitterShareButton>
         </Form.Group>
+        {showError && <span className='error'>Надо все же поделиться</span>}
         <Button
           text='Я поделился'
           type='button'
-          onClick={() => alert('Thank you for sharing!')}
-          disabled={Object.values(isShared).every(v => !v)}
+          onClick={handleConfirmButtonClick}
+          disabled={sharedConfirmationClicked}
         />
       </Form>
     </Container>

@@ -1,7 +1,10 @@
 import { Col, Container, Row } from "react-bootstrap"
 import { Button } from "../components/buttons/button.component";
+import { useNavigate } from "react-router-dom";
 
 const SuccessPage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="home-page">
       <Container>
@@ -16,7 +19,10 @@ const SuccessPage: React.FC = () => {
             <Button 
               text='Пройти игру заново'
               type='submit'
-              onClick={() => {}} 
+              onClick={() => {
+                localStorage.removeItem('userId');
+                navigate('/');
+              }}
             />
           </Col>
         </Row>

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { Form, Container, Alert } from 'react-bootstrap';
+import { Form, Container } from 'react-bootstrap';
 
 import { validateEmail } from '../../validations/emailValidation';
 import './styles/forms.css';
 import { Button } from '../buttons/button.component';
 import { useCreateUserMutation } from '../../apis/user.api';
 
-const SubscriptionForm: React.FC = () => {
+const SubscriptionForm: React.FC<{ onSubscriptionSuccess: (userId: string) => void }> = ({ onSubscriptionSuccess }) => {
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  const [createUser, { isSuccess, isError, isLoading }] = useCreateUserMutation();
+  const [createUser, { isSuccess, isLoading }] = useCreateUserMutation();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,9 +25,10 @@ const SubscriptionForm: React.FC = () => {
 
     try {
       setIsSubmitted(true);
-      await createUser({ email }).unwrap();
+      const response = await createUser({ email }).unwrap();
+      onSubscriptionSuccess(response._id);
     } catch (apiError) {
-      setError('Ошибка при отправке. Почта уже зарегистрирована или другая ошибка сервера.');
+      setError('Ошибка при отправке.');
       setIsSubmitted(false);
     }
   };
@@ -35,7 +36,7 @@ const SubscriptionForm: React.FC = () => {
   const disableForm = isLoading || isSuccess;
 
   return (
-    <Container className="subscription-form-container">
+    <Container className={`subscription-form-container ${isSubmitted ? 'disabled' : ''}`}>
       <Form className="form" onSubmit={handleSubmit}>
         <span className="form-label">Оставь актуальный email</span>
         <Form.Group>
@@ -50,8 +51,8 @@ const SubscriptionForm: React.FC = () => {
             disabled={disableForm}
             className={`input-custom ${error ? 'is-invalid' : ''}`}
           />
-          {error && <Alert variant="danger">{error}</Alert>}
         </Form.Group>
+        {error && <p className='error'>{error}</p>}
         <Button
           text='Я оставил'
           type='submit'

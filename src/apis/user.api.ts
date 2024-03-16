@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { User } from '../models/User';
-import { GetUserRequest } from '../dto/get-user-request.dto';
+import { CreateUserRequest } from '../dto/create-user-request.dto';
 
 export const usersApi = createApi({
   reducerPath: "usersApi",
@@ -9,7 +9,7 @@ export const usersApi = createApi({
     baseUrl: `http://localhost:3001/api`
   }),
   endpoints: (build) => ({
-    createUser: build.mutation<User, GetUserRequest>({
+    createUser: build.mutation<User, CreateUserRequest>({
       query: (createUserRequest) => ({
         url: '/subscribe',
         method: 'POST',
