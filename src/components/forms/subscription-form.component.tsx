@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Container } from 'react-bootstrap';
 
 import { validateEmail } from '../../validations/emailValidation';
 import './styles/forms.css';
 import { Button } from '../buttons/button.component';
-import { useCreateUserMutation } from '../../apis/user.api';
+import { useEmailsQuery } from '../../apis/user.api';
 
-const SubscriptionForm: React.FC<{ onSubscriptionSuccess: (userId: string) => void }> = ({ onSubscriptionSuccess }) => {
+const SubscriptionForm: React.FC<{ onSubscriptionSuccess: (email: string) => void }> = ({ onSubscriptionSuccess }) => {
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  const [createUser, { isSuccess, isLoading }] = useCreateUserMutation();
+  const { data: emails, isLoading: isEmailsLoading, refetch, isSuccess } = useEmailsQuery();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (isSuccess) {
+      refetch();
+    }
+  }, [isSuccess]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsSubmitted(false);
     setError('');
 
     if (!validateEmail(email)) {
@@ -23,17 +29,17 @@ const SubscriptionForm: React.FC<{ onSubscriptionSuccess: (userId: string) => vo
       return;
     }
 
-    try {
-      setIsSubmitted(true);
-      const response = await createUser({ email }).unwrap();
-      onSubscriptionSuccess(response._id);
-    } catch (apiError) {
-      setError('Ошибка при отправке.');
-      setIsSubmitted(false);
+    const emailExists = emails?.some(user => user.email === email);
+    if (emailExists) {
+      setError('Почта уже зарегестрирована');
+      return;
     }
+
+    onSubscriptionSuccess(email);
+    setIsSubmitted(true);
   };
 
-  const disableForm = isLoading || isSuccess;
+  const disableForm = isEmailsLoading || isSubmitted;
 
   return (
     <Container className={`subscription-form-container ${isSubmitted ? 'disabled' : ''}`}>

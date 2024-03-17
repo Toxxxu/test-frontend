@@ -14,8 +14,9 @@ import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 import './styles/forms.css';
 import { Button } from '../buttons/button.component';
+import { useCreateUserMutation } from '../../apis/user.api';
 
-const SharingForm: React.FC<{ isSubscribed: boolean; userId: string }> = ({ isSubscribed, userId }) => {
+const SharingForm: React.FC<{ isSubscribed: boolean; email: string }> = ({ isSubscribed, email }) => {
   const [isShared, setIsShared] = useState({
     facebook: false,
     vk: false,
@@ -25,6 +26,7 @@ const SharingForm: React.FC<{ isSubscribed: boolean; userId: string }> = ({ isSu
   const [sharedConfirmationClicked, setSharedConfirmationClicked] = useState(false);
   const [showError, setShowError] = useState(false);
 
+  const [createUser] = useCreateUserMutation();
   const navigate = useNavigate();
 
   const shareUrl = 'https://example.com';
@@ -34,18 +36,25 @@ const SharingForm: React.FC<{ isSubscribed: boolean; userId: string }> = ({ isSu
     setShowError(false);
   };
 
-  const handleConfirmButtonClick = () => {
+  const handleConfirmButtonClick = async () => {
     const hasSharedAny = Object.values(isShared).some(v => v);
-    setSharedConfirmationClicked(true);
-    
+
     if (!hasSharedAny) {
       setShowError(true);
-      setSharedConfirmationClicked(false);
-    } else {
-      if (!userId) return;
+      return;
+    }
+
+    try {
+      const response = await createUser({ email }).unwrap();
+      const userId = response._id;
+
       localStorage.setItem('userId', userId);
       navigate('/success');
+    } catch (error) {
+      console.error("Failed to create user:", error);
     }
+
+    setSharedConfirmationClicked(true);
   };
 
   const shareOnInstagram = () => {
