@@ -2,6 +2,9 @@ import { Col, Container, Row } from "react-bootstrap"
 import { Button } from "../components/buttons/button.component";
 import { useNavigate } from "react-router-dom";
 
+import logo from '../assets/images/logo.png';
+import './styles/pages.css';
+
 const SuccessPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -10,7 +13,7 @@ const SuccessPage: React.FC = () => {
       <Container>
         <Row>
           <Col md={6} className="text-container">
-            <h1 className="main-title">West Tech</h1>
+            <img src={logo} className='logo' />
             <p className="main-subtitle">КЛАСС! ТЕПЕРЬ ТЫ
             <p className='colored-text'>УЧАСТВУЕШЬ В КОНКУРСЕ</p></p>
             <p className="main-description">

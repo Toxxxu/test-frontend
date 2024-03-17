@@ -16,6 +16,7 @@
 .text-container {
   font-family: 'Inter';
   margin-left: 100px;
+  max-width: 450px;
 }
 
 .forms-container {
@@ -28,20 +29,14 @@
   grid-template-columns: 1fr 1fr;
 }
 
-.main-title {
-  font-size: 40px;
-  margin-bottom: 0.5rem;
-  color: #ffffff;
-}
-
 .main-subtitle {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
   color: #ffffff;
 }
 
 .colored-text {
-  background: linear-gradient(to right, #00ff99, #00ccff);
+  background: conic-gradient(from 159.34deg at 44.88% 50%, #2B65FB 0deg, #28D8FF 148.13deg, #85FFB6 307.63deg, #17C213 360deg);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -51,4 +46,5 @@
 .main-description {
   margin-bottom: 2rem;
   color: #ffffff;
+  max-width: 300px;
 }

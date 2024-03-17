@@ -4,15 +4,15 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { SubscriptionForm } from '../components/forms/subscription-form.component';
 import { SharingForm } from '../components/forms/sharing-form.component';
 import logo from '../assets/images/logo.png';
-import './styles/home.page.css';
+import './styles/pages.css';
 
 const HomePage: React.FC = () => {
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [userId, setUserId] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
 
-  const handleSubscriptionSuccess = (userId: string) => {
+  const handleSubscriptionSuccess = (email: string) => {
     setIsSubscribed(true);
-    setUserId(userId);
+    setEmail(email);
   };
 
   return (
@@ -30,7 +30,7 @@ const HomePage: React.FC = () => {
                 <SubscriptionForm onSubscriptionSuccess={handleSubscriptionSuccess} />
               </Col>
               <Col>
-                <SharingForm isSubscribed={isSubscribed} userId={userId} />
+                <SharingForm isSubscribed={isSubscribed} email={email} />
               </Col>
             </Row>
           </Col>
