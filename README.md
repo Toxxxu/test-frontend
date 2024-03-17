@@ -3,6 +3,10 @@
 Before you run the application, you need to run the backend. 
 Please check this link [https://github.com/Toxxxu/test-backend](https://github.com/Toxxxu/test-backend) to install and run the backend.
 
+## Description
+
+Write `git clone git@github.com:Toxxxu/test-frontend.git` in your terminal in the exact folder where you want to close the project.
+
 ## Installation
 
 Before you run the project, please write `npm install` to install the packages.
