@@ -16,7 +16,13 @@ export const usersApi = createApi({
         body: createUserRequest,
       }),
     }),
+    emails: build.query<User[], void>({
+      query: () => ({
+        url: '/get-emails',
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useCreateUserMutation } = usersApi;
+export const { useCreateUserMutation, useEmailsQuery } = usersApi;
